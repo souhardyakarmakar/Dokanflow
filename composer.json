@@ -1,0 +1,21 @@
+{
+  "name": "dokanflow/application",
+  "description": "DokanFlow PHP business workspace",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "ext-bcmath": "*",
+    "ext-openssl": "*",
+    "ext-pdo": "*",
+    "ext-pdo_mysql": "*",
+    "phpmailer/phpmailer": "^6.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "DokanFlow\\": "app/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

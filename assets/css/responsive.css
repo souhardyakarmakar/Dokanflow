@@ -1,0 +1,383 @@
+/* ==========================================================================
+   DOKANFLOW — responsive.css
+   Breakpoints: mobile <768px | tablet 768–1279px | desktop >=1280px
+   Uses only custom properties defined in style.css.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Base (applies to every viewport)
+   -------------------------------------------------------------------------- */
+
+/* Never let the page itself scroll sideways; only .table-wrap may scroll. */
+body {
+  overflow-x: clip;
+}
+
+.app-main > *,
+.app-body > * {
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. Mobile (<768px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+
+  /* Layout: single column, sidebar becomes an off-canvas drawer */
+  .app-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: var(--header-h) minmax(0, 1fr) auto;
+    grid-template-areas:
+      "header"
+      "main"
+      "footer";
+  }
+
+  .app-sidebar {
+    grid-area: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: min(300px, 86vw);
+    transform: translateX(-100%);
+    z-index: var(--z-drawer);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .app-sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .app-sidebar .sidebar-collapse,
+  [data-action="toggle-sidebar"] {
+    display: none;
+  }
+
+  /* Header and main spacing */
+  .app-header {
+    padding: 0 16px;
+  }
+
+  .header-search {
+    width: auto;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .header-search kbd,
+  .header-breadcrumb,
+  .header-title {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 2px;
+  }
+
+  .dropdown__menu--notifications {
+    position: fixed;
+    top: calc(var(--header-h) + 8px);
+    left: max(12px, env(safe-area-inset-left));
+    right: max(12px, env(safe-area-inset-right));
+    width: auto;
+    max-width: 420px;
+    max-height: min(60dvh, 420px);
+    margin-inline: auto;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform-origin: top center;
+  }
+
+  .header-actions > .btn,
+  .header-actions .header-profile .icon--sm {
+    display: none;
+  }
+
+  .app-main {
+    justify-self: stretch;
+    padding: 16px 16px calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 24px);
+  }
+
+  /* Bottom navigation */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    background: var(--surface-glass);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    backdrop-filter: blur(12px) saturate(140%);
+    border-top: 1px solid var(--border-glass);
+    z-index: var(--z-header);
+  }
+
+  .bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .bottom-nav a.is-active {
+    color: var(--green);
+  }
+
+  /* Modal becomes a bottom sheet */
+  .modal {
+    place-items: end center;
+  }
+
+  .modal__panel {
+    width: 100%;
+    max-width: 100%;
+    max-height: 90dvh;
+    border-radius: 20px 20px 0 0;
+  }
+
+  /* Drawer uses full width */
+  .drawer {
+    width: 100vw;
+  }
+
+  /* Tables collapse into stacked cards (opt-in via .table--cards) */
+  .table--cards thead {
+    display: none;
+  }
+
+  .table--cards,
+  .table--cards tbody,
+  .table--cards tr {
+    display: block;
+  }
+
+  .table--cards tr {
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 12px;
+    margin-bottom: 12px;
+    background: var(--white);
+  }
+
+  .table--cards td {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 0;
+    border: 0;
+  }
+
+  .table--cards td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Page header stacks */
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Grids: single column by default */
+  .grid-kpi,
+  .grid-main {
+    grid-template-columns: 1fr;
+  }
+
+  /* Very narrow phones: drop title and breadcrumb to save header space */
+  .header-title,
+  .breadcrumb {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Tablet and small desktop (768px – 1279px)
+   Icon-only collapsed sidebar; bottom nav hidden.
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) and (max-width: 1279px) {
+
+  .app-body {
+    grid-template-columns: var(--sidebar-w-collapsed) 1fr;
+    grid-template-rows: var(--header-h) minmax(0, 1fr) auto;
+    grid-template-areas:
+      "sidebar header"
+      "sidebar main"
+      "sidebar footer";
+  }
+
+  .app-sidebar .nav-label,
+  .app-sidebar .brand-text,
+  .app-sidebar .sidebar-business {
+    display: none;
+  }
+
+  .app-sidebar .nav-link {
+    justify-content: center;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+
+  .app-main {
+    justify-self: stretch;
+    padding: 24px;
+  }
+
+  .grid-kpi > .kpi-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Desktop (>=1280px)
+   Full sidebar by default; collapsed state set by data attribute.
+   -------------------------------------------------------------------------- */
+@media (min-width: 1280px) {
+
+  .app-body {
+    grid-template-columns: var(--sidebar-w) 1fr;
+    grid-template-rows: var(--header-h) minmax(0, 1fr) auto;
+    grid-template-areas:
+      "sidebar header"
+      "sidebar main"
+      "sidebar footer";
+  }
+
+  .app-body[data-sidebar="collapsed"] {
+    grid-template-columns: var(--sidebar-w-collapsed) 1fr;
+  }
+
+  .app-body[data-sidebar="collapsed"] .app-sidebar .nav-label,
+  .app-body[data-sidebar="collapsed"] .app-sidebar .brand-text,
+  .app-body[data-sidebar="collapsed"] .app-sidebar .sidebar-business {
+    display: none;
+  }
+
+  .app-body[data-sidebar="collapsed"] .app-sidebar .nav-link {
+    justify-content: center;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+}
+
+@media print {
+  body.print-mode * {
+    visibility: hidden !important;
+  }
+
+  body.print-mode .printable-invoice,
+  body.print-mode .printable-invoice * {
+    visibility: visible !important;
+  }
+
+  body.print-mode .printable-invoice {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    padding: 24px;
+    background: #fff;
+    box-shadow: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. KPI and main grids
+   -------------------------------------------------------------------------- */
+.grid-kpi {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+.grid-main {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 480px) {
+  .grid-kpi {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .grid-kpi {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-kpi > .kpi-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-kpi {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dashboard .grid-kpi > .kpi-card:nth-last-child(2) {
+    grid-column: 2;
+  }
+
+  .dashboard .grid-kpi > .kpi-card:last-child {
+    grid-column: 3;
+  }
+}
+
+@media (min-width: 1800px) {
+  .grid-kpi {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .dashboard .grid-kpi > .kpi-card:nth-last-child(2),
+  .dashboard .grid-kpi > .kpi-card:last-child {
+    grid-column: auto;
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid-main {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+}
+
+.grid-kpi > *,
+.grid-main > * {
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. Touch targets
+   -------------------------------------------------------------------------- */
+@media (pointer: coarse) {
+  .btn,
+  .nav-link,
+  .tab {
+    min-height: 44px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Very small screens (<480px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 479px) {
+  .header-title,
+  .breadcrumb {
+    display: none;
+  }
+}
