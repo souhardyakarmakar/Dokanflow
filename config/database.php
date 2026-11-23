@@ -22,7 +22,7 @@ $config = [
     'port' => $port,
     'database' => Environment::required('DB_NAME'),
     'username' => Environment::required('DB_USER'),
-    'password' => Environment::get('DB_PASSWORD', ''),
+    'password' => Environment::get('DB_PASS', Environment::get('DB_PASSWORD', '')),
     'timeout' => $timeout,
 ];
 

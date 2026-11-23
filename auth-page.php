@@ -179,9 +179,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
             if ($mode === 'forgot-password') {
                 $formError = 'We could not complete that request. Check the database and password-recovery email configuration, then try again.';
             } elseif (str_contains($errorMessage, 'pdo_mysql extension')) {
-                $formError = 'Account creation needs MySQL. Enable PDO MySQL, configure DB_* in .env, and run the database migrations.';
+                $formError = 'Account creation needs MySQL. Enable PDO MySQL, configure DB_* in .env, and import database/dokanflow.sql.';
             } elseif (str_contains($errorMessage, 'Required environment variable DB_')) {
-                $formError = 'Database settings are missing. Copy .env.example to .env and fill in DB_HOST, DB_NAME, DB_USER, and DB_PASSWORD.';
+                $formError = 'Database settings are missing. Copy .env.example to .env and fill in DB_HOST, DB_NAME, DB_USER, and DB_PASS.';
             } elseif (str_contains($errorMessage, 'APP_KEY must contain')) {
                 $formError = 'APP_KEY is missing or too short. Generate a private 64-character key and set it in .env.';
             } else {
