@@ -1,5 +1,5 @@
 # DokanFlow
-FULL WORKING SITE IS LIVE AT dokanflow.site.je
+FULL WORKING SITE IS LIVE AT https://dokanflow.site.je/login.php
 #### Made with Code Blender
 
 <sub>Made by Souhardya &amp; Debartha</sub>
